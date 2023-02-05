@@ -1,17 +1,8 @@
 package loggerclib.logging
 
 import loggerclib.Logger
+import loggerclib.color.EscapeCodes
 import loggerclib.exceptions.IllegalANSIProperty
-
-enum class EscapeCodes(val code: String) {
-    CtrlKey("^["),
-    Unicode("\u001b"),
-    Decimal("27");
-
-    override fun toString(): String {
-        return this.code
-    }
-}
 
 fun logger(init: LoggerSettings.() -> Unit): Logger {
     val builder = LoggerSettings()
