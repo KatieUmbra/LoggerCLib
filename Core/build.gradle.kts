@@ -46,8 +46,7 @@ tasks.named<Jar>("javadocJar") {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.31")
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+    testImplementation(kotlin("test"))
     platform("org.jetbrains.kotlin:kotlin-bom")
 }
 

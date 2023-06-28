@@ -48,8 +48,7 @@ dependencies {
     implementation("com.squareup.okio:okio:3.3.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.31")
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+    testImplementation(kotlin("test"))
     platform("org.jetbrains.kotlin:kotlin-bom")
 }
 
