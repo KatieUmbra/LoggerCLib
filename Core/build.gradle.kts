@@ -20,7 +20,7 @@ val group = property("version")
 val jvmTargetCompatibility = property("jdkVersion").toInt()
 val name = property("name")
 
-val moduleName = "color"
+val moduleName = "core"
 
 val artifactName = name.toLowerCaseAsciiOnly() + "-$moduleName"
 
@@ -44,7 +44,6 @@ tasks.named<Jar>("javadocJar") {
 }
 
 dependencies {
-    implementation(project(":Core"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.31")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
@@ -59,7 +58,7 @@ tasks.test {
 tasks.withType<DokkaTask>().configureEach {
     moduleName                  .set(project.name)
     moduleVersion               .set(project.version.toString())
-    outputDirectory             .set(file("build/dokka/Color/$name"))
+    outputDirectory             .set(file("build/dokka/Core/$name"))
     failOnWarning               .set(false)
     suppressObviousFunctions    .set(false)
     suppressInheritedMembers    .set(false)
@@ -82,8 +81,8 @@ tasks.withType<DokkaTask>().configureEach {
         sourceRoots .from(file("Color/src/main/kotlin"))
         samples     .from(project.files(), "src/samples/kotlin/Basic.kt")
         sourceLink {
-            localDirectory      .set(file("Color/src/main/kotlin"))
-            remoteUrl           .set(URL("https://github.com/KatieUmbra/LoggerCLib/Color/src/main/kotlin"))
+            localDirectory      .set(file("Core/src/main/kotlin"))
+            remoteUrl           .set(URL("https://github.com/KatieUmbra/LoggerCLib/Core/src/main/kotlin"))
             remoteLineSuffix    .set("#L")
         }
     }
@@ -99,7 +98,7 @@ publishing {
             from(components.findByName("java"))
             pom {
                 name            .set("LoggerCLib-color")
-                description     .set("LoggerCLib extension for colored logging")
+                description     .set("LoggerCLib main artifact")
                 url             .set("https://github.com/KatieUmbra/loggerclib")
                 inceptionYear   .set("2023")
 
