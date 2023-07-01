@@ -5,6 +5,7 @@ import dev.kaytea.loggerclib.core.constants.Error
 import dev.kaytea.loggerclib.core.constants.Debug
 import dev.kaytea.loggerclib.core.constants.Info
 import dev.kaytea.loggerclib.core.constants.Super
+import dev.kaytea.loggerclib.core.constants.Test as TestExample
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import kotlin.test.assertEquals
@@ -22,6 +23,7 @@ class LoggerTest {
             }
             mainLogger.log<Debug>("I'm debugging here")
             mainLogger.log<Error>("what the fuck")
+            mainLogger.log<TestExample>("Yooo this shouldn't happen")
         }
     }
     @Test
