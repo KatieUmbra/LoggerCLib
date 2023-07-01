@@ -1,14 +1,12 @@
 package dev.kaytea.loggerclib.core.dsl
 
+import dev.kaytea.loggerclib.core.Callback
 import dev.kaytea.loggerclib.core.Format
 import dev.kaytea.loggerclib.core.Logger
 import dev.kaytea.loggerclib.core.LoggingData
-import kotlin.reflect.KClass
-
-typealias Callback = Triple<String, Logger<*>.(LoggingData) -> Any, KClass<*>>
 
 class TagSettings {
-    val callbacks = mutableListOf<Callback>()
+    val callbacks = mutableListOf<Callback<Any>>()
     var displayName: String = ""
     var enabled: Boolean = true
     var loggingLevel: UShort = 0u
@@ -19,7 +17,7 @@ class TagSettings {
         name: String,
         noinline callback: Logger<*>.(LoggingData) -> R
     ) {
-        callbacks.add(Triple(name, callback, R::class))
+        callbacks.add(Callback(name, callback))
     }
 
     fun overrideFormat(newFormat: String) {

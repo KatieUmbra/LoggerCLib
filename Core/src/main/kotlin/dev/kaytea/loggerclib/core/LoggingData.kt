@@ -1,4 +1,3 @@
 package dev.kaytea.loggerclib.core
 
-class LoggingData {
-}
+class LoggingData(var tag: Tag<*>?, var channel: Channel)

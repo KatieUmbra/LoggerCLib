@@ -1,4 +1,4 @@
 package dev.kaytea.loggerclib.core
 
-abstract class Channel {
+abstract class Channel(val name: String) {
 }

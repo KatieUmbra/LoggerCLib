@@ -1,27 +1,49 @@
 package dev.kaytea.loggerclib.core
 
-import dev.kaytea.loggerclib.core.dsl.Callback
+import java.io.InvalidClassException
 
-class Logger <T: Channel> (builder: () -> String) {
-    val loggingData = LoggingData()
-    inline fun <reified S: Tag<T>> log(content: Any) {
-        @Suppress("UNCHECKED_CAST")
-        val callbacks = try {
-            S::class
-                .members
-                .find { it.name == "callbacks" } as List<Callback>
-        } catch (_: NullPointerException) {
-            null
+class Logger <T: Channel> @PublishedApi internal constructor() {
+    @PublishedApi
+    internal lateinit var output: (Any) -> Unit
+    @PublishedApi
+    internal lateinit var channel: T
+    @PublishedApi
+    internal lateinit var loggingData: LoggingData
+    val format = Format("")
+
+    inline fun <reified S: Tag<T>> log(
+        content: Any,
+        action: (List<Any>) -> Unit = {}
+    ) {
+        val tag = findObject<S>()
+
+        if (!tag.settings.enabled) return
+        if (tag.settings.filter?.let { it(loggingData) } == true) return
+
+        val callbacks = tag.settings.callbacks
+        val callbackResults = mutableListOf<Any>()
+
+        loggingData.tag = S::class.objectInstance!!
+        callbacks.forEach { callback ->
+            callbackResults.add(callback.action(this, loggingData))
         }
-        val callbackResults = mutableMapOf<String, Any>()
-        val tagSettings = S::class.objectInstance!!.settings
+        output(format.formatMessage(loggingData, content, tag.settings.format))
+        action(callbackResults)
+    }
 
-        callbacks?.forEach { (n, c, v) ->
-            if (v != Unit::class) {
-                callbackResults[n] = c(loggingData)
-            }
+    inline fun <reified S: Tag<T>> findObject(): S = S::class.objectInstance!!
+
+    companion object {
+        @JvmStatic
+        inline fun <reified T: Channel> new(
+            noinline output: (Any) -> Unit = ::println
+        ): Logger<T> {
+            val logger = Logger<T>()
+            logger.channel = T::class.objectInstance ?:
+                throw InvalidClassException("The given channel must be a kotlin Object.")
+            logger.output = output
+            logger.loggingData = LoggingData(null, logger.channel)
+            return logger
         }
-
-        println("[${tagSettings.displayName}]: $content")
     }
 }
