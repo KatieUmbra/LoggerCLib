@@ -13,7 +13,7 @@ class Logger <T: Channel> @PublishedApi internal constructor() {
 
     inline fun <reified S: Tag<T>> log(
         content: Any,
-        action: (List<Any>) -> Unit = {}
+        action: (Map<String, Any>) -> Unit = {}
     ) {
         val tag = findObject<S>()
 
@@ -21,11 +21,11 @@ class Logger <T: Channel> @PublishedApi internal constructor() {
         if (tag.settings.filter?.let { it(loggingData) } == true) return
 
         val callbacks = tag.settings.callbacks
-        val callbackResults = mutableListOf<Any>()
+        val callbackResults = mutableMapOf<String, Any>()
 
         loggingData.tag = S::class.objectInstance!!
         callbacks.forEach { callback ->
-            callbackResults.add(callback.action(this, loggingData))
+            callbackResults[callback.name] = callback.action(this, loggingData)
         }
         output(format.formatMessage(loggingData, content, tag.settings.format))
         action(callbackResults)

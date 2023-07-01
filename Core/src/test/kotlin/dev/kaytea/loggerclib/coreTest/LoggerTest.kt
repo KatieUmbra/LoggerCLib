@@ -13,8 +13,13 @@ class LoggerTest {
     @Test
     fun printsTest() {
         assertDoesNotThrow {
+            Info.settings.addCallback("Channel") {
+                it.channel.name
+            }
             val mainLogger = Logger.new<Super>()
-            mainLogger.log<Info>("Lol lmaooo")
+            mainLogger.log<Info>("Lol lmaooo") {
+                println(it["Channel"])
+            }
             mainLogger.log<Debug>("I'm debugging here")
             mainLogger.log<Error>("what the fuck")
         }
