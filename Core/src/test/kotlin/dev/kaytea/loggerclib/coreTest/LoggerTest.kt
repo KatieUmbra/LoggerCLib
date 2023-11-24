@@ -16,6 +16,7 @@ class LoggerTest {
         assertDoesNotThrow {
             Info.settings.addCallback("Channel") {
                 it.channel.name
+                it.channel.name
             }
             val mainLogger = Logger.new<Super>()
             mainLogger.log<Info>("Lol lmaooo") {

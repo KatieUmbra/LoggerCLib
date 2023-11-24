@@ -8,7 +8,7 @@ fun property(name: String): String {
 }
 
 plugins {
-    kotlin("jvm") version "1.8.20"
+    kotlin("jvm") version "1.9.0"
     id("java-library")
     id("maven-publish")
     id("signing")
@@ -17,7 +17,7 @@ plugins {
 
 val versionProject = property("version")
 val group = property("version")
-val jvmTargetCompatibility = property("jdkVersion").toInt()
+val jvmTargetCompatibility = 17
 val name = property("name")
 
 val moduleName = "file"

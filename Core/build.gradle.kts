@@ -8,7 +8,7 @@ fun property(name: String): String {
 }
 
 plugins {
-    kotlin("jvm") version "1.8.20"
+    kotlin("jvm") version "1.9.0"
     id("java-library")
     id("maven-publish")
     id("signing")
@@ -17,7 +17,7 @@ plugins {
 
 val versionProject = property("version")
 val group = property("version")
-val jvmTargetCompatibility = property("jdkVersion").toInt()
+val jvmTargetCompatibility = 17
 val name = property("name")
 
 val moduleName = "core"
@@ -70,9 +70,9 @@ tasks.withType<DokkaTask>().configureEach {
         skipEmptyPackages       .set(true)
         skipDeprecated          .set(true)
         suppressGeneratedFiles  .set(true)
-        jdkVersion              .set(11)
-        languageVersion         .set("11")
-        apiVersion              .set("11")
+        jdkVersion              .set(17)
+        languageVersion         .set("17")
+        apiVersion              .set("17")
         noStdlibLink.           set(false)
         noJdkLink               .set(false)
         noAndroidSdkLink        .set(false)
